@@ -40,7 +40,9 @@
             android:layout_alignTop="@+id/id"
             android:layout_toEndOf="@+id/pw"
             android:layout_toRightOf="@+id/pw"
-            android:text="Enter" />
+            android:text="Enter"
+            android:onClick="onClick"
+            />
     </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>
