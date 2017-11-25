@@ -43,6 +43,18 @@
             android:text="Enter"
             android:onClick="onClick"
             />
+
+        <Button
+            android:id="@+id/register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/pw"
+            android:layout_alignStart="@+id/pw"
+            android:layout_below="@+id/pw"
+            android:layout_toLeftOf="@+id/enter"
+            android:layout_toStartOf="@+id/enter"
+            android:onClick="onClick"
+            android:text="Register" />
     </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -3,9 +3,8 @@ package com.k.missu;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,46 +14,42 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 
-public class LoginScreen extends AppCompatActivity  implements View.OnClickListener {
 
-    TextView id, pw;
-    Button enter,reg;
-    HttpConn conn = new HttpConn();
-    String id_text,pw_text;
-    String result = null;
+/**
+ * Created by kjh on 2017. 11. 25..
+ */
 
-
+public class Register_Screen extends AppCompatActivity implements View.OnClickListener{
+    Button reg,check,back;
+    TextView reg_id,reg_pw;
+    HttpConn conn;
+    String result;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login_screen);
-
-        id = (TextView) findViewById(R.id.id);
-        pw = (TextView) findViewById(R.id.pw);
-        enter = (Button) findViewById(R.id.enter);
+        setContentView(R.layout.activity_register_screen);
         reg = (Button) findViewById(R.id.register);
-    }
+        check = (Button) findViewById(R.id.check);
+        reg_id = (TextView) findViewById(R.id.reg_id);
+        reg_pw = (TextView) findViewById(R.id.reg_pw);
 
+
+    }
     @Override
-    public void onClick(View v) {
+    public void onClick(View v){
 
         switch (v.getId()) {
-            case R.id.enter:
-                id_text = id.getText().toString();
-                pw_text = pw.getText().toString();
-                NetworkTask networkTask = new NetworkTask(null);
+            case R.id.register_btn:
+                Register_Screen.NetworkTask networkTask = new Register_Screen.NetworkTask(null);
                 networkTask.execute();
-
                 break;
-            case R.id.register:
-                Log.d("register","go to register screen");
-                Intent r = new Intent(this.getApplicationContext(),Register_Screen.class);
-                startActivity(r);
+            case R.id.back:
+                Intent b = new Intent(getApplicationContext(),LoginScreen.class);
+                startActivity(b);
                 finish();
-
-                }
         }
 
+    }
     public class NetworkTask extends AsyncTask<Void, Void, String> {
 
         private ContentValues values;
@@ -70,9 +65,9 @@ public class LoginScreen extends AppCompatActivity  implements View.OnClickListe
             HttpConn conn = new HttpConn();
             JSONObject response;
             try {
-                response = conn.HttpGET("http://18.216.36.241/missu/user_authorization.php?id=" + id_text + "&pw=" + pw_text);
+                response = conn.HttpGET("http://18.216.36.241/missu/user_registeration.php?id=" + reg_id.toString() + "&pw=" + reg_pw.toString());
                 result = response.getString("success");
-                System.out.println("doinbackgr = "+result);
+                System.out.println("doinbackgr_reg = "+result);
                 return result;
             } catch (IOException e) {
                 e.printStackTrace();
@@ -91,15 +86,15 @@ public class LoginScreen extends AppCompatActivity  implements View.OnClickListe
             System.out.println("main result = "+result);
 
             if(result.equals("0")){
-                System.out.println("Login Failed");
-                Toast.makeText(getApplicationContext(), "Login Failed", Toast.LENGTH_SHORT).show();
+                System.out.println("Registeration Failed");
+                Toast.makeText(getApplicationContext(), "Registeration Failed", Toast.LENGTH_SHORT).show();
                 result = null;
             }else if (result.equals("1")){
-                Intent i = new Intent(getApplicationContext(),MainScreen.class);
+                Intent i = new Intent(getApplicationContext(),LoginScreen.class);
+                Toast.makeText(getApplicationContext(),"Registeration Successed",Toast.LENGTH_LONG).show();
                 startActivity(i);
                 finish();
             }
         }
     }
-
-    }
+}
